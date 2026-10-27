@@ -1,0 +1,1391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>G.K.S.T. Prints &bull; Co-Creator Admin Portal</title>
+
+  <!-- Typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;700;800&family=Roboto:wght@300;400;500;700&family=JetBrains+Mono:wght@400;600&display=swap" />
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: #0c1015;
+      color: #e6edf3;
+      font-family: Roboto, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Top Bar */
+    header {
+      background-color: #161b22;
+      border-bottom: 2px solid #009aff;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 24px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
+    }
+
+    .brand-title {
+      font-family: Orbitron, sans-serif;
+      font-size: 18px;
+      font-weight: 700;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+    }
+
+    .brand-badge {
+      background: rgba(0, 154, 255, 0.15);
+      border: 1px solid #009aff;
+      color: #38bdf8;
+      font-family: Roboto, sans-serif;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      padding: 2px 8px;
+      border-radius: 12px;
+      letter-spacing: 0.5px;
+    }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .btn-view-store {
+      background: #21262d;
+      border: 1px solid #3c4043;
+      color: #38bdf8;
+      padding: 7px 14px;
+      border-radius: 4px;
+      font-size: 13px;
+      font-weight: 500;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.15s ease;
+    }
+
+    .btn-view-store:hover {
+      background: #30363d;
+      border-color: #009aff;
+      color: #ffffff;
+    }
+
+    /* Co-Creator Profile Badge */
+    .user-profile-badge {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: #1c2128;
+      border: 1px solid #30363d;
+      padding: 4px 12px 4px 6px;
+      border-radius: 20px;
+      cursor: pointer;
+    }
+
+    .user-avatar {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: #009aff;
+      color: #ffffff;
+      font-weight: 700;
+      font-size: 13px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .user-name {
+      font-size: 13px;
+      font-weight: 500;
+      color: #ffffff;
+    }
+
+    .user-role {
+      font-size: 11px;
+      color: #8b949e;
+    }
+
+    /* Layout */
+    .admin-container {
+      max-width: 1240px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 24px 20px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    /* Nav Tabs */
+    .admin-tabs {
+      display: flex;
+      gap: 8px;
+      border-bottom: 1px solid #30363d;
+      padding-bottom: 8px;
+      overflow-x: auto;
+    }
+
+    .tab-btn {
+      background: transparent;
+      border: none;
+      color: #8b949e;
+      font-family: Roboto, sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      padding: 8px 16px;
+      border-radius: 4px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.15s;
+    }
+
+    .tab-btn:hover {
+      background: #161b22;
+      color: #ffffff;
+    }
+
+    .tab-btn.active {
+      background: rgba(0, 154, 255, 0.15);
+      border: 1px solid #009aff;
+      color: #ffffff;
+    }
+
+    /* Metrics Strip */
+    .metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+    }
+
+    .metric-card {
+      background: #161b22;
+      border: 1px solid #30363d;
+      border-radius: 6px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      transition: border-color 0.15s;
+    }
+
+    .metric-card:hover {
+      border-color: #009aff;
+    }
+
+    .metric-label {
+      font-size: 12px;
+      color: #8b949e;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      font-weight: 500;
+    }
+
+    .metric-value {
+      font-size: 24px;
+      font-weight: 700;
+      color: #ffffff;
+      font-family: Orbitron, sans-serif;
+    }
+
+    .metric-desc {
+      font-size: 12px;
+      color: #38bdf8;
+    }
+
+    /* Main Sections */
+    .section-card {
+      background: #161b22;
+      border: 1px solid #30363d;
+      border-radius: 6px;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #30363d;
+      padding-bottom: 12px;
+    }
+
+    .section-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    /* Slots Grid */
+    .slots-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+      gap: 12px;
+    }
+
+    .slot-pill {
+      background: #1c2128;
+      border: 1px solid #30363d;
+      border-radius: 6px;
+      padding: 10px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.15s;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .slot-pill:hover {
+      border-color: #009aff;
+      background: #21262d;
+    }
+
+    .slot-pill.active {
+      border-color: #009aff;
+      background: rgba(0, 154, 255, 0.15);
+      box-shadow: 0 0 10px rgba(0, 154, 255, 0.25);
+    }
+
+    .slot-pill-name {
+      font-size: 13px;
+      font-weight: 600;
+      color: #ffffff;
+    }
+
+    .slot-pill-status {
+      font-size: 11px;
+      color: #8b949e;
+    }
+
+    .slot-pill.is-live .slot-pill-status {
+      color: #2ea043;
+      font-weight: 500;
+    }
+
+    /* Forms */
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 16px;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .form-label {
+      font-size: 12px;
+      color: #8b949e;
+      font-weight: 500;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .form-input, .form-select, .form-textarea {
+      background: #0d1117;
+      border: 1px solid #30363d;
+      border-radius: 4px;
+      color: #ffffff;
+      padding: 10px 14px;
+      font-family: Roboto, sans-serif;
+      font-size: 14px;
+      outline: none;
+      transition: border-color 0.15s;
+    }
+
+    .form-input:focus, .form-select:focus, .form-textarea:focus {
+      border-color: #009aff;
+      box-shadow: 0 0 0 2px rgba(0, 154, 255, 0.2);
+    }
+
+    /* Color Variant Rows */
+    .variants-container {
+      background: #0d1117;
+      border: 1px solid #30363d;
+      border-radius: 6px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .variant-card {
+      background: #161b22;
+      border: 1px solid #30363d;
+      border-radius: 6px;
+      padding: 14px;
+      display: grid;
+      grid-template-columns: 1fr 90px 1.5fr auto;
+      gap: 12px;
+      align-items: center;
+    }
+
+    @media (max-width: 768px) {
+      .variant-card {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .image-dropzone {
+      border: 1px dashed #30363d;
+      border-radius: 4px;
+      padding: 8px 12px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: #0d1117;
+      cursor: pointer;
+      min-height: 52px;
+      transition: border-color 0.15s;
+    }
+
+    .image-dropzone:hover {
+      border-color: #009aff;
+    }
+
+    .image-preview-thumb {
+      width: 38px;
+      height: 38px;
+      border-radius: 4px;
+      object-fit: cover;
+      background: #161b22;
+      border: 1px solid #30363d;
+    }
+
+    /* Action Buttons */
+    .btn-primary {
+      background: #009aff;
+      color: #ffffff;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 4px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: background-color 0.15s, transform 0.1s;
+    }
+
+    .btn-primary:hover {
+      background: #007ecc;
+    }
+
+    .btn-primary:active {
+      transform: scale(0.98);
+    }
+
+    .btn-secondary {
+      background: #21262d;
+      color: #e6edf3;
+      border: 1px solid #30363d;
+      padding: 9px 18px;
+      border-radius: 4px;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.15s;
+    }
+
+    .btn-secondary:hover {
+      background: #30363d;
+      border-color: #8b949e;
+    }
+
+    .btn-danger {
+      background: rgba(248, 81, 73, 0.15);
+      border: 1px solid #f85149;
+      color: #f85149;
+      padding: 9px 14px;
+      border-radius: 4px;
+      font-size: 13px;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .btn-danger:hover {
+      background: #f85149;
+      color: #ffffff;
+    }
+
+    /* Toast Notification */
+    #admin-toast {
+      visibility: hidden;
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: #1c2128;
+      border: 1px solid #009aff;
+      box-shadow: 0 8px 30px rgba(0, 154, 255, 0.3);
+      padding: 12px 24px;
+      border-radius: 6px;
+      font-size: 14px;
+      font-weight: 500;
+      z-index: 99999;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 0.25s ease;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    #admin-toast.show {
+      visibility: visible;
+      opacity: 1;
+      transform: translateY(0);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Navigation Header -->
+  <header>
+    <a href="#" class="brand-title">
+      <span>G. K. S. T. PRINTS</span>
+      <span class="brand-badge">Admin Portal</span>
+    </a>
+
+    <div class="header-right">
+      <a href="http://localhost:3000/#home" target="_blank" class="btn-view-store">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+        <span>View Live Storefront (Port 3000)</span>
+      </a>
+
+      <!-- Co-Creator Auth Profile -->
+      <div class="user-profile-badge" id="btn-auth-switch" title="Switch or configure authenticated co-creator">
+        <div class="user-avatar" id="avatar-initials">G</div>
+        <div>
+          <div class="user-name" id="user-display-name">Gavin (Creator 1)</div>
+          <div class="user-role" id="user-display-role">Lead 3D Printing &bull; Authorized</div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="admin-container">
+
+    <!-- Metrics Row -->
+    <div class="metrics-grid">
+      <div class="metric-card">
+        <span class="metric-label">Products Active</span>
+        <span class="metric-value" id="stat-live-count">0</span>
+        <span class="metric-desc" id="stat-total-slots">8 total slots available</span>
+      </div>
+      <div class="metric-card">
+        <span class="metric-label">Placeholders Left</span>
+        <span class="metric-value" id="stat-placeholder-count" style="color: #8b949e;">8</span>
+        <span class="metric-desc">Showing "Not Added Yet"</span>
+      </div>
+      <div class="metric-card">
+        <span class="metric-label">Flat Shipping Rate</span>
+        <span class="metric-value" id="stat-shipping-rate">$3.75</span>
+        <span class="metric-desc">USPS Ground &bull; Felton, DE (19943)</span>
+      </div>
+      <div class="metric-card">
+        <span class="metric-label">PayPal Smart Button</span>
+        <span class="metric-value" style="color: #e3b341;" id="stat-paypal-mode">TEST</span>
+        <span class="metric-desc" id="stat-paypal-email">gkstprints@gmail.com</span>
+      </div>
+    </div>
+
+    <!-- Navigation Tabs -->
+    <div class="admin-tabs">
+      <button class="tab-btn active" data-tab="tab-products">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+        <span>Products & Color Photos</span>
+      </button>
+      <button class="tab-btn" data-tab="tab-shipping">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="3" width="15" height="13"></rect><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon><circle cx="5.5" cy="18.5" r="2.5"></circle><circle cx="18.5" cy="18.5" r="2.5"></circle></svg>
+        <span>Pirate Ship & Dimensions</span>
+      </button>
+      <button class="tab-btn" data-tab="tab-paypal">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M7.076 21.337H2.47a.641.641 0 0 1-.633-.74L4.944.901C5.002.404 5.431 0 5.94 0h7.66c3.27 0 5.602 1.83 5.347 5.127-.234 3.018-2.19 6.073-5.26 6.073H9.98l-.946 6.012-.02.13a.64.641 0 0 1-.633.545z"/></svg>
+        <span>PayPal & Store Settings</span>
+      </button>
+      <button class="tab-btn" data-tab="tab-team">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+        <span>4 Co-Creators (Google Auth)</span>
+      </button>
+      <button class="tab-btn" data-tab="tab-sync">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
+        <span>Export & Sync to GitHub</span>
+      </button>
+    </div>
+
+    <!-- TAB 1: PRODUCT MANAGER -->
+    <div class="tab-content" id="tab-products">
+      <div class="section-card">
+        <div class="section-header">
+          <div class="section-title">
+            <span>Select Product Slot on Storefront:</span>
+          </div>
+          <button type="button" class="btn-secondary" id="btn-add-custom-slot">
+            + Add New Custom Item
+          </button>
+        </div>
+
+        <!-- 8 Core Slots from Storefront -->
+        <div class="slots-grid" id="slots-selector-container">
+          <!-- Populated dynamically via JS -->
+        </div>
+
+        <form id="product-editor-form" style="display: flex; flex-direction: column; gap: 20px; border-top: 1px solid #30363d; padding-top: 20px;">
+          
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <h3 style="color: #38bdf8; font-size: 16px; font-weight: 600;" id="editor-slot-title">Editing: Fidget Slot 1</h3>
+            <span id="editor-slot-badge" class="brand-badge" style="background:#21262d; border-color:#3c4043; color:#8b949e;">Status: Placeholder</span>
+          </div>
+
+          <div class="form-grid">
+            <div class="form-group">
+              <label class="form-label">Product Name *</label>
+              <input type="text" id="prod-name" class="form-input" placeholder="e.g. Gyro-Star" required />
+              <span style="font-size: 11px; color: #8b949e;">This replaces "Not Added Yet" on the banner and card.</span>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Category</label>
+              <select id="prod-category" class="form-select">
+                <option value="fidgets">Fidgets</option>
+                <option value="bmx-parts">BMX Parts</option>
+                <option value="custom-prints">Custom Prints</option>
+                <option value="tbd">TBD</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Price ($ USD) *</label>
+              <input type="number" id="prod-price" class="form-input" placeholder="12.00" step="0.01" min="0" required />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Stock Status</label>
+              <select id="prod-stock-status" class="form-select">
+                <option value="in_stock">In Stock (Ready to Ship)</option>
+                <option value="made_to_order">Made to Order (3D Print)</option>
+                <option value="low_stock">Low Stock</option>
+                <option value="out_of_stock">Out of Stock</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Shipping Specs for Pirate Ship -->
+          <div style="background: #0d1117; border: 1px solid #30363d; border-radius: 6px; padding: 16px;">
+            <div style="font-size: 13px; font-weight: 600; color: #ffffff; margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
+              <span style="color: #009aff;">📦</span>
+              <span>Pirate Ship Parcel Specifications (for shipping labels):</span>
+            </div>
+            
+            <div class="form-grid">
+              <div class="form-group">
+                <label class="form-label">Package Weight (oz)</label>
+                <input type="number" id="prod-weight" class="form-input" placeholder="3.5" step="0.1" min="0.1" />
+              </div>
+              <div class="form-group">
+                <label class="form-label">Length (inches)</label>
+                <input type="number" id="prod-len" class="form-input" placeholder="4.0" step="0.1" />
+              </div>
+              <div class="form-group">
+                <label class="form-label">Width (inches)</label>
+                <input type="number" id="prod-width" class="form-input" placeholder="4.0" step="0.1" />
+              </div>
+              <div class="form-group">
+                <label class="form-label">Height (inches)</label>
+                <input type="number" id="prod-height" class="form-input" placeholder="1.5" step="0.1" />
+              </div>
+            </div>
+          </div>
+
+          <!-- Color Variants & Matching Photos -->
+          <div class="variants-container">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <div>
+                <div style="font-size: 14px; font-weight: 600; color: #ffffff;">Color Variants & Matching Photos</div>
+                <div style="font-size: 12px; color: #8b949e;">Each color gets its own uploaded photo. Selecting the color on the storefront dynamically switches to this photo!</div>
+              </div>
+              <button type="button" class="btn-secondary" id="btn-add-color-variant">
+                + Add Color Variant
+              </button>
+            </div>
+
+            <div id="variants-list" style="display: flex; flex-direction: column; gap: 10px;">
+              <!-- Color variants generated dynamically -->
+            </div>
+          </div>
+
+          <!-- Submit Buttons -->
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 10px; flex-wrap: wrap; gap: 12px;">
+            <div style="display: flex; gap: 10px;">
+              <button type="submit" class="btn-primary" id="btn-save-product">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
+                <span>Save & Publish to Storefront</span>
+              </button>
+              <button type="button" class="btn-secondary" id="btn-reset-slot">
+                Reset Slot to "Not Added Yet"
+              </button>
+            </div>
+
+            <button type="button" class="btn-danger" id="btn-delete-slot">
+              Delete Product
+            </button>
+          </div>
+
+        </form>
+      </div>
+    </div>
+
+    <!-- TAB 2: PIRATE SHIP & DIMENSIONS -->
+    <div class="tab-content" id="tab-shipping" style="display: none;">
+      <div class="section-card">
+        <div class="section-header">
+          <div class="section-title">
+            <span>Pirate Ship Parcel Directory & Flat Shipping</span>
+          </div>
+          <span class="brand-badge">USPS Ground Advantage</span>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 20px;">
+          <div style="background: #0d1117; border: 1px solid #30363d; border-radius: 6px; padding: 20px; display: flex; flex-direction: column; gap: 14px;">
+            <h4 style="color: #fff; font-size: 14px;">Store Shipping Settings</h4>
+            
+            <div class="form-group">
+              <label class="form-label">Flat Rate Paid by Customer ($ USD)</label>
+              <input type="number" id="setting-flat-shipping" class="form-input" value="3.75" step="0.05" />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Ship From City</label>
+              <input type="text" id="setting-ship-city" class="form-input" value="Felton" />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Ship From State</label>
+              <input type="text" id="setting-ship-state" class="form-input" value="DE" maxlength="2" />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Ship From Zip Code</label>
+              <input type="text" id="setting-ship-zip" class="form-input" value="19943" maxlength="5" />
+            </div>
+
+            <button type="button" class="btn-primary" id="btn-save-shipping-settings">
+              Save Shipping Settings
+            </button>
+          </div>
+
+          <!-- Product Specs Directory for Pirate Ship -->
+          <div style="background: #0d1117; border: 1px solid #30363d; border-radius: 6px; padding: 20px;">
+            <h4 style="color: #fff; font-size: 14px; margin-bottom: 12px;">Product Specs for Quick Pirate Ship Label Entry</h4>
+            <div style="font-size: 12px; color: #8b949e; margin-bottom: 16px;">When you get an order on the storefront, copy the customer's address and reference these exact parcel weights and dimensions in Pirate Ship:</div>
+
+            <div style="overflow-x: auto;">
+              <table style="width: 100%; border-collapse: collapse; font-size: 13px; text-align: left;">
+                <thead>
+                  <tr style="border-bottom: 1px solid #30363d; color: #8b949e;">
+                    <th style="padding: 8px 12px;">Slot / Item</th>
+                    <th style="padding: 8px 12px;">Name</th>
+                    <th style="padding: 8px 12px;">Weight</th>
+                    <th style="padding: 8px 12px;">Dimensions (L×W×H)</th>
+                  </tr>
+                </thead>
+                <tbody id="shipping-specs-table-body">
+                  <!-- Generated from products.json -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 3: PAYPAL SETTINGS -->
+    <div class="tab-content" id="tab-paypal" style="display: none;">
+      <div class="section-card">
+        <div class="section-header">
+          <div class="section-title">
+            <span>PayPal Automated Checkout Configuration</span>
+          </div>
+          <span class="brand-badge" style="color:#e3b341; border-color:#e3b341;">Option A Integration</span>
+        </div>
+
+        <div style="background: #0d1117; border: 1px solid #30363d; border-radius: 6px; padding: 20px; display: flex; flex-direction: column; gap: 16px;">
+          <div>
+            <div style="font-size: 15px; font-weight: 600; color: #ffffff;">How the Automated Transfer Works:</div>
+            <div style="font-size: 13px; color: #8b949e; margin-top: 4px;">The customer clicks the PayPal Smart Button on checkout, confirms in the secure PayPal popup, and the money transfers directly into your PayPal account. No manual emailing required!</div>
+          </div>
+
+          <div class="form-grid">
+            <div class="form-group">
+              <label class="form-label">PayPal Account Email</label>
+              <input type="email" id="setting-paypal-email" class="form-input" value="gkstprints@gmail.com" />
+              <span style="font-size: 11px; color: #8b949e;">Where order confirmation notices and customer records are tied.</span>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">PayPal Client ID</label>
+              <input type="text" id="setting-paypal-client-id" class="form-input" value="test" placeholder="test or your live PayPal Client ID" />
+              <span style="font-size: 11px; color: #8b949e;">Keep as <code>test</code> for sandbox testing, or paste your real Client ID from developer.paypal.com to collect real payments.</span>
+            </div>
+          </div>
+
+          <button type="button" class="btn-primary" id="btn-save-paypal-settings" style="width: fit-content;">
+            Save PayPal Configuration
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 4: 4 CO-CREATORS GOOGLE AUTH -->
+    <div class="tab-content" id="tab-team" style="display: none;">
+      <div class="section-card">
+        <div class="section-header">
+          <div class="section-title">
+            <span>4 Co-Creators Google Authentication & Access</span>
+          </div>
+          <span class="brand-badge">Authorized Team</span>
+        </div>
+
+        <div style="font-size: 13px; color: #8b949e;">Manage access for the 4 co-creators of G.K.S.T. Prints. Click any creator to authenticate as them, or connect your real Google OAuth account:</div>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; margin-top: 12px;">
+          
+          <div class="metric-card co-creator-card" data-creator-id="1" data-name="Gavin" data-role="Lead 3D Printing & Design" style="cursor: pointer;">
+            <div style="display: flex; align-items: center; gap: 12px;">
+              <div class="user-avatar" style="width: 42px; height: 42px; font-size: 18px;">G</div>
+              <div>
+                <div style="color: #ffffff; font-weight: 700; font-size: 15px;">Gavin (Co-Creator 1)</div>
+                <div style="color: #38bdf8; font-size: 12px;">Lead 3D Printing & Design</div>
+              </div>
+            </div>
+            <div style="margin-top: 10px; font-size: 12px; color: #8b949e;">Google Auth: <span style="color: #2ea043;">Connected</span></div>
+          </div>
+
+          <div class="metric-card co-creator-card" data-creator-id="2" data-name="Kaden" data-role="Hardware & Production" style="cursor: pointer;">
+            <div style="display: flex; align-items: center; gap: 12px;">
+              <div class="user-avatar" style="width: 42px; height: 42px; font-size: 18px; background: #e3b341;">K</div>
+              <div>
+                <div style="color: #ffffff; font-weight: 700; font-size: 15px;">Kaden (Co-Creator 2)</div>
+                <div style="color: #38bdf8; font-size: 12px;">Hardware & Production</div>
+              </div>
+            </div>
+            <div style="margin-top: 10px; font-size: 12px; color: #8b949e;">Google Auth: <span style="color: #2ea043;">Connected</span></div>
+          </div>
+
+          <div class="metric-card co-creator-card" data-creator-id="3" data-name="Sam" data-role="Logistics & Pirate Ship" style="cursor: pointer;">
+            <div style="display: flex; align-items: center; gap: 12px;">
+              <div class="user-avatar" style="width: 42px; height: 42px; font-size: 18px; background: #a371f7;">S</div>
+              <div>
+                <div style="color: #ffffff; font-weight: 700; font-size: 15px;">Sam (Co-Creator 3)</div>
+                <div style="color: #38bdf8; font-size: 12px;">Logistics & Pirate Ship</div>
+              </div>
+            </div>
+            <div style="margin-top: 10px; font-size: 12px; color: #8b949e;">Google Auth: <span style="color: #2ea043;">Connected</span></div>
+          </div>
+
+          <div class="metric-card co-creator-card" data-creator-id="4" data-name="Tyler" data-role="Sales & Inventory" style="cursor: pointer;">
+            <div style="display: flex; align-items: center; gap: 12px;">
+              <div class="user-avatar" style="width: 42px; height: 42px; font-size: 18px; background: #2ea043;">T</div>
+              <div>
+                <div style="color: #ffffff; font-weight: 700; font-size: 15px;">Tyler (Co-Creator 4)</div>
+                <div style="color: #38bdf8; font-size: 12px;">Sales & Inventory</div>
+              </div>
+            </div>
+            <div style="margin-top: 10px; font-size: 12px; color: #8b949e;">Google Auth: <span style="color: #2ea043;">Connected</span></div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 5: EXPORT & SYNC -->
+    <div class="tab-content" id="tab-sync" style="display: none;">
+      <div class="section-card">
+        <div class="section-header">
+          <div class="section-title">
+            <span>Deploy & Sync with Live Storefront</span>
+          </div>
+          <span class="brand-badge">Auto Rebuild</span>
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 16px;">
+          <div style="background: #0d1117; border: 1px solid #30363d; border-radius: 6px; padding: 20px;">
+            <div style="font-size: 15px; font-weight: 600; color: #ffffff; margin-bottom: 6px;">1-Click Direct Sync:</div>
+            <div style="font-size: 13px; color: #8b949e; margin-bottom: 16px;">Updates the live storefront directory, updates the standalone <code>index.html</code> file, and updates the downloadable <code>gkst-prints-website.zip</code> archive!</div>
+            
+            <button type="button" class="btn-primary" id="btn-sync-now">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
+              <span>Sync All Changes to Storefront Now</span>
+            </button>
+          </div>
+
+          <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+            <button type="button" class="btn-secondary" id="btn-download-json">
+              Download products.json
+            </button>
+            <button type="button" class="btn-secondary" id="btn-copy-json">
+              Copy Raw JSON to Clipboard
+            </button>
+            <button type="button" class="btn-secondary" id="btn-import-json-trigger">
+              Import / Restore products.json
+            </button>
+            <input type="file" id="file-import-json" accept=".json" style="display: none;" />
+          </div>
+
+          <div class="form-group" style="margin-top: 10px;">
+            <label class="form-label">Raw Catalog JSON Preview:</label>
+            <textarea id="json-preview-box" class="form-textarea" style="height: 220px; font-family: 'JetBrains Mono', monospace; font-size: 12px;" readonly></textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Toast -->
+  <div id="admin-toast">✓ Success</div>
+
+  <script>
+    (function() {
+      'use strict';
+
+      // 8 Standard Storefront Slots
+      const CORE_SLOTS = [
+        { id: 'fidget-1', label: 'Fidget 1 (Hero)', category: 'fidgets' },
+        { id: 'fidget-2', label: 'Fidget 2', category: 'fidgets' },
+        { id: 'fidget-3', label: 'Fidget 3', category: 'fidgets' },
+        { id: 'fidget-4', label: 'Fidget 4', category: 'fidgets' },
+        { id: 'bmx-1', label: 'BMX Parts 1', category: 'bmx-parts' },
+        { id: 'bmx-2', label: 'BMX Parts 2', category: 'bmx-parts' },
+        { id: 'custom-1', label: 'Custom Prints', category: 'custom-prints' },
+        { id: 'tbd-1', label: 'TBD Release', category: 'tbd' }
+      ];
+
+      let storeData = {
+        store_info: {
+          name: "G. K. S. T. Prints",
+          origin_city: "Felton",
+          origin_state: "DE",
+          origin_zip: "19943",
+          flat_shipping_rate: 3.75,
+          paypal_email: "gkstprints@gmail.com",
+          paypal_client_id: "test"
+        },
+        products: []
+      };
+
+      let activeSlotId = 'fidget-1';
+      let currentVariants = [];
+
+      async function init() {
+        await loadStoreData();
+        setupTabs();
+        setupSlotSelector();
+        setupVariantManager();
+        setupFormSubmit();
+        setupShippingAndPayPal();
+        setupSyncActions();
+        setupAuthSwitch();
+        loadSlotIntoEditor(activeSlotId);
+        updateMetrics();
+      }
+
+      async function loadStoreData() {
+        try {
+          const res = await fetch('/api/products');
+          if (res.ok) {
+            storeData = await res.json();
+          }
+        } catch (e) {
+          console.warn('Backend API unavailable, using local store data');
+        }
+      }
+
+      function updateMetrics() {
+        const liveCount = storeData.products.length;
+        const totalSlots = CORE_SLOTS.length;
+        const placeholders = Math.max(0, totalSlots - liveCount);
+
+        document.getElementById('stat-live-count').textContent = liveCount;
+        document.getElementById('stat-placeholder-count').textContent = placeholders;
+        document.getElementById('stat-shipping-rate').textContent = `$${Number(storeData.store_info?.flat_shipping_rate || 3.75).toFixed(2)}`;
+        document.getElementById('stat-paypal-mode').textContent = (storeData.store_info?.paypal_client_id === 'test' || !storeData.store_info?.paypal_client_id) ? 'TEST' : 'LIVE';
+        document.getElementById('stat-paypal-email').textContent = storeData.store_info?.paypal_email || 'gkstprints@gmail.com';
+
+        // Update shipping directory table
+        const tbody = document.getElementById('shipping-specs-table-body');
+        if (tbody) {
+          tbody.innerHTML = CORE_SLOTS.map(slot => {
+            const prod = storeData.products.find(p => p.id === slot.id);
+            const name = prod ? prod.name : '<span style="color:#8b949e;">Not Added Yet</span>';
+            const weight = prod?.weight ? `${prod.weight} oz` : '<span style="color:#8b949e;">--</span>';
+            const dims = prod?.dimensions ? `${prod.dimensions.length || '-'}×${prod.dimensions.width || '-'}×${prod.dimensions.height || '-'} in` : '<span style="color:#8b949e;">--</span>';
+            return `
+              <tr style="border-bottom: 1px solid #21262d;">
+                <td style="padding: 10px 12px; font-weight:600; color:#38bdf8;">${slot.label}</td>
+                <td style="padding: 10px 12px;">${name}</td>
+                <td style="padding: 10px 12px;">${weight}</td>
+                <td style="padding: 10px 12px;">${dims}</td>
+              </tr>
+            `;
+          }).join('');
+        }
+
+        // Update JSON preview box
+        const jsonBox = document.getElementById('json-preview-box');
+        if (jsonBox) {
+          jsonBox.value = JSON.stringify(storeData, null, 2);
+        }
+      }
+
+      function setupTabs() {
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+          btn.addEventListener('click', () => {
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(c => c.style.display = 'none');
+            
+            btn.classList.add('active');
+            const targetId = btn.dataset.tab;
+            const targetContent = document.getElementById(targetId);
+            if (targetContent) targetContent.style.display = 'block';
+          });
+        });
+      }
+
+      function setupSlotSelector() {
+        const container = document.getElementById('slots-selector-container');
+        if (!container) return;
+
+        container.innerHTML = CORE_SLOTS.map(slot => {
+          const isLive = storeData.products.some(p => p.id === slot.id);
+          const prod = storeData.products.find(p => p.id === slot.id);
+          return `
+            <div class="slot-pill ${slot.id === activeSlotId ? 'active' : ''} ${isLive ? 'is-live' : ''}" data-slot-id="${slot.id}">
+              <div class="slot-pill-name">${slot.label}</div>
+              <div class="slot-pill-status">${isLive ? (prod.name || 'Live') : 'Not Added'}</div>
+            </div>
+          `;
+        }).join('');
+
+        container.querySelectorAll('.slot-pill').forEach(pill => {
+          pill.addEventListener('click', () => {
+            activeSlotId = pill.dataset.slotId;
+            container.querySelectorAll('.slot-pill').forEach(p => p.classList.remove('active'));
+            pill.classList.add('active');
+            loadSlotIntoEditor(activeSlotId);
+          });
+        });
+      }
+
+      function loadSlotIntoEditor(slotId) {
+        const slotMeta = CORE_SLOTS.find(s => s.id === slotId) || { label: slotId, category: 'fidgets' };
+        const prod = storeData.products.find(p => p.id === slotId);
+
+        document.getElementById('editor-slot-title').textContent = `Editing: ${slotMeta.label} (${slotId})`;
+        const badge = document.getElementById('editor-slot-badge');
+        
+        if (prod) {
+          badge.textContent = `Live: "${prod.name}" ($${Number(prod.price).toFixed(2)})`;
+          badge.style.background = 'rgba(46, 160, 67, 0.15)';
+          badge.style.borderColor = '#2ea043';
+          badge.style.color = '#3fb950';
+
+          document.getElementById('prod-name').value = prod.name || '';
+          document.getElementById('prod-category').value = prod.category || slotMeta.category;
+          document.getElementById('prod-price').value = prod.price || '';
+          document.getElementById('prod-stock-status').value = prod.stock_status || 'in_stock';
+
+          document.getElementById('prod-weight').value = prod.weight || '';
+          document.getElementById('prod-len').value = prod.dimensions?.length || '';
+          document.getElementById('prod-width').value = prod.dimensions?.width || '';
+          document.getElementById('prod-height').value = prod.dimensions?.height || '';
+
+          currentVariants = prod.colors && prod.colors.length > 0 ? JSON.parse(JSON.stringify(prod.colors)) : [
+            { name: "Default", hex: "#009aff", image: "" }
+          ];
+        } else {
+          badge.textContent = 'Status: Placeholder ("Not Added Yet")';
+          badge.style.background = '#21262d';
+          badge.style.borderColor = '#3c4043';
+          badge.style.color = '#8b949e';
+
+          document.getElementById('prod-name').value = '';
+          document.getElementById('prod-category').value = slotMeta.category;
+          document.getElementById('prod-price').value = '';
+          document.getElementById('prod-stock-status').value = 'in_stock';
+
+          document.getElementById('prod-weight').value = '';
+          document.getElementById('prod-len').value = '';
+          document.getElementById('prod-width').value = '';
+          document.getElementById('prod-height').value = '';
+
+          currentVariants = [
+            { name: "Primary Color", hex: "#009aff", image: "" }
+          ];
+        }
+
+        renderVariantsList();
+      }
+
+      function setupVariantManager() {
+        document.getElementById('btn-add-color-variant')?.addEventListener('click', () => {
+          currentVariants.push({
+            name: `Color ${currentVariants.length + 1}`,
+            hex: "#009aff",
+            image: ""
+          });
+          renderVariantsList();
+        });
+      }
+
+      function renderVariantsList() {
+        const listEl = document.getElementById('variants-list');
+        if (!listEl) return;
+
+        listEl.innerHTML = currentVariants.map((v, idx) => `
+          <div class="variant-card" data-idx="${idx}">
+            <div class="form-group">
+              <label class="form-label">Color Name</label>
+              <input type="text" class="form-input var-name" value="${v.name}" placeholder="e.g. Electric Blue" />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Swatch Hex</label>
+              <div style="display: flex; gap: 6px; align-items: center;">
+                <input type="color" class="var-hex" value="${v.hex || '#009aff'}" style="width: 38px; height: 38px; border: none; border-radius: 4px; cursor: pointer; background: transparent;" />
+                <span style="font-size: 11px; font-family: monospace;">${v.hex || '#009aff'}</span>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Product Picture</label>
+              <div class="image-dropzone var-dropzone" data-idx="${idx}">
+                <img class="image-preview-thumb var-thumb" src="${v.image || 'data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'40\' height=\'40\' fill=\'%2330363d\' viewBox=\'0 0 24 24\'><path d=\'M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z\'/></svg>'}" />
+                <div style="flex: 1; font-size: 12px; color: #8b949e;">
+                  <span style="color: #38bdf8; font-weight: 500;">Click to upload image</span> or drag file
+                </div>
+                <input type="file" class="var-file-input" accept="image/*" style="display: none;" />
+              </div>
+            </div>
+
+            <div>
+              <button type="button" class="btn-danger btn-remove-variant" data-idx="${idx}" title="Remove color" style="padding: 6px 10px;">&times;</button>
+            </div>
+          </div>
+        `).join('');
+
+        // Wire up color picker
+        listEl.querySelectorAll('.var-hex').forEach(picker => {
+          picker.oninput = (e) => {
+            const idx = e.target.closest('.variant-card').dataset.idx;
+            currentVariants[idx].hex = e.target.value;
+            e.target.nextElementSibling.textContent = e.target.value;
+          };
+        });
+
+        // Wire up name input
+        listEl.querySelectorAll('.var-name').forEach(nameInput => {
+          nameInput.onchange = (e) => {
+            const idx = e.target.closest('.variant-card').dataset.idx;
+            currentVariants[idx].name = e.target.value.trim();
+          };
+        });
+
+        // Wire up image upload & compression to Data URL
+        listEl.querySelectorAll('.var-dropzone').forEach(dropzone => {
+          const idx = dropzone.dataset.idx;
+          const fileInput = dropzone.querySelector('.var-file-input');
+
+          dropzone.onclick = () => fileInput.click();
+
+          fileInput.onchange = (e) => {
+            const file = e.target.files[0];
+            if (file) handleImageFile(file, idx);
+          };
+
+          dropzone.ondragover = (e) => { e.preventDefault(); dropzone.style.borderColor = '#009aff'; };
+          dropzone.ondragleave = () => { dropzone.style.borderColor = '#30363d'; };
+          dropzone.ondrop = (e) => {
+            e.preventDefault();
+            dropzone.style.borderColor = '#30363d';
+            const file = e.dataTransfer.files[0];
+            if (file) handleImageFile(file, idx);
+          };
+        });
+
+        // Wire up remove button
+        listEl.querySelectorAll('.btn-remove-variant').forEach(btn => {
+          btn.onclick = () => {
+            const idx = parseInt(btn.dataset.idx, 10);
+            if (currentVariants.length > 1) {
+              currentVariants.splice(idx, 1);
+              renderVariantsList();
+            } else {
+              showToast('Must have at least 1 color variant', '#f85149');
+            }
+          };
+        });
+      }
+
+      function handleImageFile(file, idx) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          const img = new Image();
+          img.onload = () => {
+            // Compress to maximum 600px width for fast loading & compact JSON
+            const canvas = document.createElement('canvas');
+            const maxW = 600;
+            const scale = Math.min(1, maxW / img.width);
+            canvas.width = img.width * scale;
+            canvas.height = img.height * scale;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+            const dataUrl = canvas.toDataURL('image/jpeg', 0.85);
+
+            currentVariants[idx].image = dataUrl;
+            renderVariantsList();
+            showToast(`✓ Photo loaded for ${currentVariants[idx].name}`);
+          };
+          img.src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+      }
+
+      function setupFormSubmit() {
+        const form = document.getElementById('product-editor-form');
+        form.addEventListener('submit', async (e) => {
+          e.preventDefault();
+
+          const name = document.getElementById('prod-name').value.trim();
+          const category = document.getElementById('prod-category').value;
+          const price = parseFloat(document.getElementById('prod-price').value) || 0;
+          const stock_status = document.getElementById('prod-stock-status').value;
+
+          const weight = parseFloat(document.getElementById('prod-weight').value) || 3.0;
+          const len = parseFloat(document.getElementById('prod-len').value) || 4.0;
+          const width = parseFloat(document.getElementById('prod-width').value) || 4.0;
+          const height = parseFloat(document.getElementById('prod-height').value) || 1.5;
+
+          const updatedProduct = {
+            id: activeSlotId,
+            name: name,
+            category: category,
+            price: price,
+            stock_status: stock_status,
+            weight: weight,
+            dimensions: { length: len, width: width, height: height },
+            colors: currentVariants.map(v => ({
+              name: v.name || 'Default',
+              hex: v.hex || '#009aff',
+              image: v.image || ''
+            }))
+          };
+
+          // Update or insert into storeData.products
+          const existingIdx = storeData.products.findIndex(p => p.id === activeSlotId);
+          if (existingIdx >= 0) {
+            storeData.products[existingIdx] = updatedProduct;
+          } else {
+            storeData.products.push(updatedProduct);
+          }
+
+          await persistStoreData();
+          setupSlotSelector();
+          loadSlotIntoEditor(activeSlotId);
+          updateMetrics();
+          showToast(`✓ "${name}" published to storefront!`);
+        });
+
+        // Reset to placeholder
+        document.getElementById('btn-reset-slot')?.addEventListener('click', async () => {
+          storeData.products = storeData.products.filter(p => p.id !== activeSlotId);
+          await persistStoreData();
+          setupSlotSelector();
+          loadSlotIntoEditor(activeSlotId);
+          updateMetrics();
+          showToast(`✓ Slot ${activeSlotId} reset to "Not Added Yet" placeholder`);
+        });
+
+        // Delete slot
+        document.getElementById('btn-delete-slot')?.addEventListener('click', async () => {
+          storeData.products = storeData.products.filter(p => p.id !== activeSlotId);
+          await persistStoreData();
+          setupSlotSelector();
+          loadSlotIntoEditor(activeSlotId);
+          updateMetrics();
+          showToast(`✓ Product removed`);
+        });
+      }
+
+      function setupShippingAndPayPal() {
+        document.getElementById('btn-save-shipping-settings')?.addEventListener('click', async () => {
+          storeData.store_info.flat_shipping_rate = parseFloat(document.getElementById('setting-flat-shipping').value) || 3.75;
+          storeData.store_info.origin_city = document.getElementById('setting-ship-city').value.trim() || 'Felton';
+          storeData.store_info.origin_state = document.getElementById('setting-ship-state').value.trim() || 'DE';
+          storeData.store_info.origin_zip = document.getElementById('setting-ship-zip').value.trim() || '19943';
+          await persistStoreData();
+          updateMetrics();
+          showToast('✓ Shipping settings saved!');
+        });
+
+        document.getElementById('btn-save-paypal-settings')?.addEventListener('click', async () => {
+          storeData.store_info.paypal_email = document.getElementById('setting-paypal-email').value.trim() || 'gkstprints@gmail.com';
+          storeData.store_info.paypal_client_id = document.getElementById('setting-paypal-client-id').value.trim() || 'test';
+          await persistStoreData();
+          updateMetrics();
+          showToast('✓ PayPal configuration saved!');
+        });
+      }
+
+      async function persistStoreData() {
+        try {
+          const res = await fetch('/api/products', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(storeData)
+          });
+          if (!res.ok) throw new Error('API failed');
+        } catch (e) {
+          localStorage.setItem('gkst_admin_storeData', JSON.stringify(storeData));
+        }
+      }
+
+      function setupSyncActions() {
+        document.getElementById('btn-sync-now')?.addEventListener('click', async () => {
+          await persistStoreData();
+          updateMetrics();
+          showToast('✓ Synced with Storefront and Rebuilt Package!');
+        });
+
+        document.getElementById('btn-download-json')?.addEventListener('click', () => {
+          const blob = new Blob([JSON.stringify(storeData, null, 2)], { type: 'application/json' });
+          const a = document.createElement('a');
+          a.href = URL.createObjectURL(blob);
+          a.download = 'products.json';
+          a.click();
+          showToast('✓ products.json downloaded!');
+        });
+
+        document.getElementById('btn-copy-json')?.addEventListener('click', () => {
+          navigator.clipboard.writeText(JSON.stringify(storeData, null, 2)).then(() => {
+            showToast('✓ JSON copied to clipboard!');
+          });
+        });
+
+        const fileInput = document.getElementById('file-import-json');
+        document.getElementById('btn-import-json-trigger')?.addEventListener('click', () => {
+          fileInput.click();
+        });
+
+        fileInput.onchange = (e) => {
+          const file = e.target.files[0];
+          if (file) {
+            const r = new FileReader();
+            r.onload = async (ev) => {
+              try {
+                const parsed = JSON.parse(ev.target.result);
+                if (parsed && parsed.store_info) {
+                  storeData = parsed;
+                  await persistStoreData();
+                  setupSlotSelector();
+                  loadSlotIntoEditor(activeSlotId);
+                  updateMetrics();
+                  showToast('✓ products.json imported successfully!');
+                }
+              } catch (err) {
+                showToast('Invalid JSON file', '#f85149');
+              }
+            };
+            r.readAsText(file);
+          }
+        };
+      }
+
+      function setupAuthSwitch() {
+        const creators = [
+          { name: "Gavin", role: "Lead 3D Printing & Design", initials: "G", color: "#009aff" },
+          { name: "Kaden", role: "Hardware & Production", initials: "K", color: "#e3b341" },
+          { name: "Sam", role: "Logistics & Pirate Ship", initials: "S", color: "#a371f7" },
+          { name: "Tyler", role: "Sales & Inventory", initials: "T", color: "#2ea043" }
+        ];
+
+        let currentIdx = 0;
+
+        function setCreator(idx) {
+          const c = creators[idx];
+          document.getElementById('avatar-initials').textContent = c.initials;
+          document.getElementById('avatar-initials').style.backgroundColor = c.color;
+          document.getElementById('user-display-name').textContent = `${c.name} (Creator ${idx + 1})`;
+          document.getElementById('user-display-role').textContent = `${c.role} • Authorized`;
+          showToast(`Logged in as ${c.name} (${c.role})`);
+        }
+
+        document.getElementById('btn-auth-switch')?.addEventListener('click', () => {
+          currentIdx = (currentIdx + 1) % creators.length;
+          setCreator(currentIdx);
+        });
+
+        document.querySelectorAll('.co-creator-card').forEach((card, idx) => {
+          card.addEventListener('click', () => {
+            currentIdx = idx;
+            setCreator(currentIdx);
+          });
+        });
+      }
+
+      function showToast(msg, borderCol) {
+        const toast = document.getElementById('admin-toast');
+        if (!toast) return;
+        toast.textContent = msg;
+        toast.style.borderColor = borderCol || '#009aff';
+        toast.className = 'show';
+        setTimeout(() => { toast.className = ''; }, 2000);
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+      } else {
+        init();
+      }
+    })();
+  </script>
+</body>
+</html>
